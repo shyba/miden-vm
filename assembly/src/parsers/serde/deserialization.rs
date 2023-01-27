@@ -71,7 +71,7 @@ impl<'a> ByteReader<'a> {
         self.check_eor(length as usize)?;
         let string_bytes = &self.bytes[self.pos..self.pos + length as usize];
         self.pos += length as usize;
-        Ok(String::from_utf8(string_bytes.to_vec()).expect("String conversion failure"))
+        String::from_utf8(string_bytes.to_vec()).map_err(|_| SerializationError::InvalidUnicode)
     }
 
     pub fn read_docs(&mut self) -> Result<Option<String>, SerializationError> {
@@ -80,8 +80,7 @@ impl<'a> ByteReader<'a> {
             self.check_eor(length as usize)?;
             let string_bytes = &self.bytes[self.pos..self.pos + length as usize];
             self.pos += length as usize;
-            let docs = String::from_utf8(string_bytes.to_vec()).expect("String conversion failure");
-            Ok(Some(docs))
+            String::from_utf8(string_bytes.to_vec()).map(Some).map_err(|_| SerializationError::InvalidUnicode)
         } else {
             Ok(None)
         }

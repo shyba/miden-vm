@@ -424,6 +424,7 @@ pub enum SerializationError {
     InvalidBoolValue,
     StringTooLong,
     EndOfReader,
+    InvalidUnicode,
     InvalidOpCode,
     InvalidFieldElement,
 }
