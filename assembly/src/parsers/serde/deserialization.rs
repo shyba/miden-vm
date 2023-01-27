@@ -44,7 +44,7 @@ impl<'a> ByteReader<'a> {
         let result = &self.bytes[self.pos..self.pos + 2];
         self.pos += 2;
         Ok(u16::from_le_bytes(
-            result.try_into().expect("u16 conversion failure"),
+            result.try_into()?,
         ))
     }
 
@@ -53,7 +53,7 @@ impl<'a> ByteReader<'a> {
         let result = &self.bytes[self.pos..self.pos + 4];
         self.pos += 4;
         Ok(u32::from_le_bytes(
-            result.try_into().expect("u32 conversion failure"),
+            result.try_into()?,
         ))
     }
 
@@ -62,7 +62,7 @@ impl<'a> ByteReader<'a> {
         let result = &self.bytes[self.pos..self.pos + 8];
         self.pos += 8;
         Ok(u64::from_le_bytes(
-            result.try_into().expect("u64 conversion failure"),
+            result.try_into()?,
         ))
     }
 

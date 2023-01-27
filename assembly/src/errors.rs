@@ -1,5 +1,5 @@
 use super::{ProcedureId, String, ToString, Token, Vec};
-use core::fmt;
+use core::{fmt, array::TryFromSliceError};
 
 // ASSEMBLY ERROR
 // ================================================================================================
@@ -427,6 +427,12 @@ pub enum SerializationError {
     InvalidUnicode,
     InvalidOpCode,
     InvalidFieldElement,
+}
+
+impl From<TryFromSliceError> for SerializationError {
+    fn from(_err: TryFromSliceError) -> Self {
+        Self::EndOfReader
+    }
 }
 
 // LIBRARY ERROR
